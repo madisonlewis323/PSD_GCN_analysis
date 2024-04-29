@@ -52,12 +52,12 @@ def GCN_test(loader):
 
 
 warnings.filterwarnings("ignore")
-labelCSV='/booboo_workspace/mlewis/UKB_HCP_Neocortex/SC/raw/Labels.csv'
+labelCSV='/path/to/labelsfile/Labels.csv'
 LISTS=pd.read_csv(labelCSV,delimiter=',')
 mydata=mydatalist(LISTS.SUBJECTS,LISTS.LABELS)
 
 with open("SC_sc1_all_results.txt", "w", encoding="utf-8") as f:
-    f.write("Edge Detection-Streamline Count=1 Threshold, Subjects=All, Network Size= 377\n")
+    f.write("Edge Detection-Streamline Count=1, Subjects=All, Network Size= 377\n")
 
 skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=99)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -101,7 +101,7 @@ for n_fold, (train_val, test) in enumerate(skf.split(LISTS.LABELS, LISTS.LABELS)
             min_v_loss = v_loss
             best_val_bac = val_bac
             best_test_sen, best_test_spe, best_test_bac = test_sen, test_spe, test_bac
-            torch.save(model.state_dict(), 'SC_sc1_ICD_best_model_%02i.pth' % (n_fold + 1))
+            torch.save(model.state_dict(), 'SC_sc1_best_model_%02i.pth' % (n_fold + 1))
         print('CV: {:03d}, Epoch: {:03d}, Val Loss: {:.5f}, Val BAC: {:.5f}, Test BAC: {:.5f}, TEST SEN: {:.5f}, '
                   'TEST SPE: {:.5f}'.format(n_fold + 1, epoch + 1, min_v_loss, best_val_bac, best_test_bac,
                                             best_test_sen, best_test_spe))
