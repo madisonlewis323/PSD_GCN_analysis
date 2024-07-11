@@ -44,7 +44,7 @@ def GCN_test(loader):
 
     y_pred = torch.cat(pred, dim=0).cpu().detach().numpy()
     y_true = torch.cat(label, dim=0).cpu().detach().numpy()
-    tn, fp, fn, tp = confusion_matrix(y_pred, y_true).ravel()
+    tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
     epoch_sen = tp / (tp + fn)
     epoch_spe = tn / (tn + fp)
     epoch_bac = (epoch_sen + epoch_spe) / 2
